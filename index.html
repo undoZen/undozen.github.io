@@ -50,7 +50,7 @@ pre {
       script.src = 'http://undozen.b0.upaiyun.com/fonts-jsonp.js';
       script.defer = true;
       script.async = true;
-      head.appendChild(script);
+      s.parentNode.insertBefore(script, s);
     }
     window.saveFontsJSONP = function (fonts) {
       ;['Song', 'VerilySerifMono'].forEach(function (key) {
