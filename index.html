@@ -1,7 +1,7 @@
 <head><meta charset=utf8><title>Hello, World!</title>
 <style>
 body {
-  font-family: Song, "宋", "宋体", "华文宋体", "华文中宋", serif;
+  font-family: Lora, Song, "宋", "宋体", "华文宋体", "华文中宋", serif;
   font-size: 16px;
   line-height: 1.8;
 }
@@ -20,35 +20,60 @@ pre {
 <body>
 <script>
   ;(function() {
-    if (!window.localStorage) return; // 如果没有 localStorage 支持，就不加载中文宋体和 VerilySerifMono 了。
+    if (!window.localStorage || !window.sessionStorage) {
+      return;
+    } // 如果没有 localStorage 或 sessionStorage 支持，就直接不加载 web fonts 了。
 
     var s = document.getElementsByTagName('style')[0];
 
-    var loadFonts = function loadFonts() {
-      var tpl = function (name, base64) {
-        return "@font-face {\n  font-family:" + name + ";\n  src: url(" + base64 + ") format('woff');\n}";
+    var remainFonts = 2;
+
+    function loadFonts() {
+      var tpl = function (name, base64, bold, italic) {
+        result = "@font-face {\n  font-family:" + name + ";\n  src: url(" + base64 + ") format('woff');\n";
+        if (bold) result += '  font-weight: bold;\n';
+        if (italic) result += '  font-style: italic;\n';
+        result += '}\n';
+        return result;
       }
-      var style = document.createElement('style');
       var inner = '';
       inner += tpl('Song', localStorage.getItem('Song'));
       inner += tpl('VerilySerifMono', localStorage.getItem('VerilySerifMono'));
+      inner += tpl('Lora', sessionStorage.getItem('Lora-Regular'));
+      inner += tpl('Lora', sessionStorage.getItem('Lora-Bold'), true);
+      inner += tpl('Lora', sessionStorage.getItem('Lora-BoldItalic'), true, true);
+      inner += tpl('Lora', sessionStorage.getItem('Lora-Italic'), false, true);
+
+      var style = document.createElement('style');
       style.innerHTML = inner;
       s.parentNode.insertBefore(style, s);
     }
-    if (localStorage.getItem('Song')) {
-      loadFonts();
-    } else {
-      var script = document.createElement('script');
-      script.src = 'http://undozen.b0.upaiyun.com/fonts-jsonp.js';
-      script.defer = true;
-      script.async = true;
-      s.parentNode.insertBefore(script, s);
-    }
+
     window.saveFontsJSONP = function (fonts) {
-      ;['Song', 'VerilySerifMono'].forEach(function (key) {
-        localStorage.setItem(key, fonts[key]);
-      });
-      loadFonts();
+      for (key in fonts) { localStorage.setItem(key, fonts[key]); }
+      --remainFonts || loadFonts();
+    };
+
+    window.loraFontsJSONP = function (fonts) {
+      for (key in fonts) { sessionStorage.setItem(key, fonts[key]); }
+      --remainFonts || loadFonts();
+    };
+
+    if (localStorage.getItem('Song')) {
+      --remainFonts || loadFonts();
+    } else {
+      var ss = document.createElement('script');
+      ss.src = 'http://undozen.b0.upaiyun.com/fonts-jsonp.js';
+      ss.async = true;
+      s.parentNode.insertBefore(ss, s);
+    }
+    if (sessionStorage.getItem('Lora-Regular')) {
+      --remainFonts || loadFonts();
+    } else {
+      var ls = document.createElement('script');
+      ls.src = 'http://undozen.b0.upaiyun.com/lora-jsonp.js';
+      ls.async = true;
+      s.parentNode.insertBefore(ls, s);
     }
   }());
 </script>
