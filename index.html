@@ -1,4 +1,3 @@
-<html class="wf-loading">
 <head><meta charset=utf8><title>Hello, World!</title>
 <style>
 .wf-loading {
@@ -8,12 +7,12 @@
   visibility: visible;
 }
 body {
-  font-family: Lora, Song, "宋", "宋体", "华文宋体", "华文中宋", serif;
+  font-family: Song, "宋", "宋体", "华文宋体", "华文中宋", serif;
   font-size: 16px;
   line-height: 1.8;
 }
 code, pre {
-  font-family: VerilySerifMono, "Ubuntu Mono", monospace;
+  font-family: VerilySerifMono, monospace;
 }
 code {
   padding: 2px 3px 2px 5px;
@@ -26,19 +25,11 @@ pre {
 </head>
 <body>
 <script>
-  WebFontConfig = {
-    google: { families: [ 'Lora::latin', 'Ubuntu+Mono::latin' ] }
-  };
   ;(function() {
-    var s = document.getElementsByTagName('script')[0];
-    var wf = document.createElement('script');
-    wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
-      '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
-    wf.type = 'text/javascript';
-    wf.async = 'true';
-    s.parentNode.insertBefore(wf, s);
-
     if (!window.localStorage) return; // 如果没有 localStorage 支持，就不加载中文宋体和 VerilySerifMono 了。
+
+    var s = document.getElementsByTagName('script')[0];
+
     var loadFonts = function loadFonts() {
       var tpl = function (name, base64) {
         return "@font-face {\n  font-family:" + name + ";\n  src: url(" + base64 + ") format('woff');\n}";
@@ -117,4 +108,3 @@ email <a href="mailto:hello at undozen dot com">hello at undozen dot com</a><br>
 <p>幸福意味着安宁，身体的安宁和思想的安宁。这是一种自我满足的情形，一种与一个人的生活环境和谐共处的情形，一种与一个人的生活目的相符合的情形。这种安宁并不是要人不去进取，而是要人以一种自然、有效的方式释放自身的潜能。</p>
 </article>
 </body>
-</html>
