@@ -1,11 +1,5 @@
 <head><meta charset=utf8><title>Hello, World!</title>
 <style>
-.wf-loading {
-  visibility: hidden;
-}
-.wf-active, .wf-inactive {
-  visibility: visible;
-}
 body {
   font-family: Song, "宋", "宋体", "华文宋体", "华文中宋", serif;
   font-size: 16px;
@@ -28,7 +22,7 @@ pre {
   ;(function() {
     if (!window.localStorage) return; // 如果没有 localStorage 支持，就不加载中文宋体和 VerilySerifMono 了。
 
-    var s = document.getElementsByTagName('script')[0];
+    var s = document.getElementsByTagName('style')[0];
 
     var loadFonts = function loadFonts() {
       var tpl = function (name, base64) {
